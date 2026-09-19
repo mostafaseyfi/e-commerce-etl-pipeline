@@ -1,0 +1,9 @@
+pandas (DataFrame process)
+sqlalchemy (connection DB with py)
+psycopg2-binary (postgreSQL driver)
+python-dotenv   (get .env)
+pydantic    (validation)
+pytest  (testing)
+faker   (fake data)
+fastapi 
+uvicorn

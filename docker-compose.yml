@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: ecommerce_postgres
+
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: ecommerce_user
+      POSTGRES_PASSWORD: ecommerce_password
+      
+    ports:
+      - "5433:5432"
+
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecommerce_user -d ecommerce"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  etl:
+    build: .
+    container_name: ecommerce_etl
+
+    depends_on: 
+      postgres:
+        condition: service_healthy
+  
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER:  ecommerce_user
+      POSTGRES_PASSWORD:  ecommerce_password
+
+    volumes:
+      - ./data:/app/data
+
+    command: ["python","src/main.py"]
+
+volumes:
+  postgres_data:
