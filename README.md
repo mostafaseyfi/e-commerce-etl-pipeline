@@ -686,7 +686,3 @@ Load
 - Data Warehouse
 
 ---
-
-👨‍💻 Author
-
-Built as a portfolio project to demonstrate practical Python, ETL, SQL, PostgreSQL, Docker, and Data Engineering skills.
